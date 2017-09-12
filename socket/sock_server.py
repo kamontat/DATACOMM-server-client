@@ -4,7 +4,7 @@ import socket
 from datetime import datetime
 
 HOST = '127.0.0.1'
-PORT = 8081
+PORT = 1431
 BYTE_MESSAGE = 1024
 
 TIME_FORMAT_FOR_LOG = '%Y-%m-%d %H:%M:%S'
@@ -16,8 +16,13 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 s.bind((HOST, PORT))
+print "Open port.. ", PORT
 s.listen(1)
+print "Waiting.. "
+
 conn, addr = s.accept()
+
+print "Connect to ", addr
 
 while 1:
     msg = conn.recv(BYTE_MESSAGE)
