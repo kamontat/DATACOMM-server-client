@@ -95,17 +95,11 @@ def main(argv):
         opts, args = getopt.getopt(argv, "hH:P:S:T:t:E:", [
                                    "help", "host=", "port=", "msg-size=", "time-log-format=", "time-format=", "error-message="])
     except getopt.GetoptError:
-        print 'sock_server.py [-H|--host] <host> [-P|--port] <port_number> ' +
-            '[-S|--msg-size] <msg_size> [-T|--time-format] <response_time_format> ' +
-            '[-t|--time-log-format] <format_of_time_in_log> [-E|--error-message] <response_message_when_error> ' +
-            '[-h|--help]'
+        print 'sock_server.py [-H|--host] <host> [-P|--port] <port_number> ', '[-S|--msg-size] <msg_size> [-T|--time-format] <response_time_format> ', '[-t|--time-log-format] <format_of_time_in_log> [-E|--error-message] <response_message_when_error> ', '[-h|--help]'
         sys.exit(0)
     for opt, arg in opts:
         if opt == '-h':
-            print 'sock_server.py [-H|--host] <host> [-P|--port] <port_number> ' +
-                '[-S|--msg-size] <msg_size> [-T|--time-format] <response_time_format> ' +
-                '[-t|--time-log-format] <format_of_time_in_log> [-E|--error-message] <response_message_when_error> ' +
-                '[-h|--help]'
+            print 'sock_server.py [-H|--host] <host> [-P|--port] <port_number> ', '[-S|--msg-size] <msg_size> [-T|--time-format] <response_time_format> ', '[-t|--time-log-format] <format_of_time_in_log> [-E|--error-message] <response_message_when_error> ', '[-h|--help]'
             sys.exit()
         elif opt in ("-H", "--host"):
             HOST = arg
