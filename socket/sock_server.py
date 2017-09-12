@@ -25,7 +25,9 @@ def bind_and_accept():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((HOST, PORT))
+    print "Open port: ", PORT
     s.listen(1)
+    print "Waiting..."
     return s.accept()
 
 
@@ -100,11 +102,24 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print 'sock_server.py [-H|--host] <host> [-P|--port] <port_number> ', '[-S|--msg-size] <msg_size> [-T|--time-format] <response_time_format> ', '[-t|--time-log-format] <format_of_time_in_log> [-E|--error-message] <response_message_when_error> ', '[-h|--help]'
+            print 'help             -- this command'
+            print 'host             -- require parameter'
+            print '                 -- specify host (default=localhost)'
+            print 'port             -- require parameter'
+            print '                 -- specify port (default=8080)'
+            print 'msg-size         -- require parameter'
+            print '                 -- size of buffer that server will read (default=1024)'
+            print 'time-format      -- require parameter'
+            print '                 -- format of time that server will response to client in `localtime` command (default=%I:%M %p)'
+            print 'time-log-format  -- require parameter'
+            print '                 -- format of time that server will log to console (default=%Y-%m-%d %H:%M:%S)'
+            print 'error-message    -- require parameter'
+            print '                 -- the message that server will response when some error occured (default=ERROR)'
             sys.exit()
         elif opt in ("-H", "--host"):
             HOST = arg
         elif opt in ("-P", "--port"):
-            PORT = arg
+            PORT = int(arg)
         elif opt in ("-S", "--msg-size"):
             BYTE_MESSAGE = arg
         elif opt in ("-T", "--time-format"):
@@ -115,6 +130,7 @@ def main(argv):
             TIME_FORMAT_FOR_LOG = arg
     # start binding and accept
     connection, CLIENT_ADDRESS = bind_and_accept()
+    print "Connected by", CLIENT_ADDRESS
     # running server loop
     while 1:
         msg = connection.recv(BYTE_MESSAGE)

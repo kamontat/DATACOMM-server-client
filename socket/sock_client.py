@@ -10,8 +10,11 @@ DEFAULT_PORT = 8080
 
 
 def connect(host, port):
+    print "Start client.."
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print "Try to connect..", host, ":", port,
     s.connect((host, int(port)))
+    print "-- CONNECTED"
     return s
 
 
@@ -41,6 +44,11 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print 'sock_client.py [-H|--host] <host> [-P|--port] <port_number> [-h|--help]'
+            print 'help     -- this command'
+            print 'host     -- require parameter'
+            print '         -- specify host (default=localhost)'
+            print 'port     -- require parameter'
+            print '         -- specify port (default=8080)'
             sys.exit()
         elif opt in ("-H", "--host"):
             HOST = arg
