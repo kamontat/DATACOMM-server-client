@@ -27,20 +27,20 @@ print "Connected to", addr
 while 1:
     msg = conn.recv(BYTE_MESSAGE)
     log_time = datetime.now().strftime(TIME_FORMAT_FOR_LOG)
-    print ">> " + log_time + ": ", addr, " --> ", "(\'" + HOST + "\', " + str(PORT) + ")", ": ", msg
+    print ">> {}: ({!r}, {!s}) <-- {}: {}".format(log_time, HOST, PORT, addr, msg)
     if (msg == "quit"):
         conn.sendall(msg)
         break
     elif(msg.lower() == 'localtime'):
         time = datetime.now().strftime(TIME_FORMAT_FOR_RETURN)
         conn.sendall(time)
-        print ">> " + log_time + ": ", addr, " <-- ", "(\'" + HOST + "\', " + str(PORT) + ")", ": ", time
+        print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, time)
     elif(',' in msg and msg.count(',') == 2):
         v1, v2, op = msg.split(',')
         conn.sendall(v1 + op + v2)
-        print ">> " + log_time + ": ", addr, " <-- ", "(\'" + HOST + "\', " + str(PORT) + ")", ": ", v1 + op + v2
+        print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, v1 + op + v2)
     else:
         conn.sendall(ERROR_MESSAGE)
-        print ">> " + log_time + ": ", addr, " <-- ", "(\'" + HOST + "\', " + str(PORT) + ")", ": ", ERROR_MESSAGE
+        print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, ERROR_MESSAGE)
 
 conn.close()
