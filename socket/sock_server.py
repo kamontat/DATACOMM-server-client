@@ -22,7 +22,7 @@ print "Waiting.. "
 
 conn, addr = s.accept()
 
-print "Connect to ", addr
+print "Connected to", addr
 
 while 1:
     msg = conn.recv(BYTE_MESSAGE)
