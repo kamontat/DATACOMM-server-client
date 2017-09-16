@@ -4,7 +4,7 @@ import socket
 # import time
 
 HOST = '127.0.0.1'
-PORT = 1431
+PORT = 8080
 
 print "Start client."
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

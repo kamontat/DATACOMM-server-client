@@ -2,9 +2,10 @@
 
 import socket
 from datetime import datetime
+import operator
 
 HOST = '127.0.0.1'
-PORT = 1431
+PORT = 8080
 BYTE_MESSAGE = 1024
 
 TIME_FORMAT_FOR_LOG = '%Y-%m-%d %H:%M:%S'
@@ -36,9 +37,17 @@ while 1:
         conn.sendall(time)
         print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, time)
     elif(',' in msg and msg.count(',') == 2):
+        default_ops = {
+            '+': operator.add,
+            '-': operator.sub,
+            '*': operator.mul,
+            '/': operator.div,
+            '%': operator.mod,
+            '^': operator.xor,
+        }
         v1, v2, op = msg.split(',')
-        conn.sendall(v1 + op + v2)
-        print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, v1 + op + v2)
+        conn.sendall(v1 + op + v2 + "=" + str(default_ops[op](int(v1), int(v2))))
+        print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, v1 + op + v2 + "=" + str(default_ops[op](int(v1), int(v2))))
     else:
         conn.sendall(ERROR_MESSAGE)
         print ">> {}: ({!r}, {!s}) --> {}: {}".format(log_time, HOST, PORT, addr, ERROR_MESSAGE)
