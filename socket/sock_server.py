@@ -3,6 +3,7 @@
 import socket
 import sys
 import getopt
+import operator
 from datetime import datetime
 # print "start server"
 
@@ -63,15 +64,28 @@ def a_time(connection, msg):
         return False
 
 
+def get_ops(op):
+    return {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.div,
+        '%': operator.mod,
+        '^': operator.xor,
+    }[op]
+
+
 def a_format_operation(connection, msg):
     """reformat operation of input string action"""
     if(SEPARATOR in msg and msg.count(SEPARATOR) == 2):
         v1, v2, op = msg.split(',')
-        connection.sendall(v1 + op + v2)
+        try:
+            connection.sendall('{} {} {} = {}'.format(v1, op, v2, get_ops(op)(int(v1), int(v2))))
+        except KeyError:
+            return False
         print to_client_log(v1 + op + v2)
         return True
-    else:
-        return False
+    return False
 
 
 def a_throw_error(connection):
